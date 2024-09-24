@@ -1,0 +1,126 @@
+﻿System.Data.SQLite 1.0.118
+Emgu.CV 4.1.1.3497
+Newtonsoft.Json 13.0.3
+using System.Management; => thêm thủ công bằng "Add" -> "Reference...".
+Extendsion: Sqlite And SQL Server Compact Toolbox
+
+Fix lỗi không add được Form
+Chuột phải Project -> chọn "Unload Project"
+Sau đó chọn Reload Project
+Trong Program.cs sửa lại -> Application.Run(new mainForm());
+
+Nếu ko được thì Chỉnh Sửa File .csproj:
+
+Tìm đến đoạn code tương ứng với file form của bạn. Nó sẽ trông như thế này:
+
+	<Compile Include="MyForm.cs" />
+	<Compile Include="MyForm.Designer.cs" />
+	<Compile Include="MyForm.resx" />
+
+	Thay đổi nó thành:
+
+	<Compile Include="MyForm\MainForm.cs">
+	  <SubType>Form</SubType>
+	</Compile>
+	<Compile Include="MyForm\MainForm.Designer.cs">
+	  <DependentUpon>MainForm.cs</DependentUpon>
+	</Compile>
+	<EmbeddedResource Include="MyForm\MainForm.resx">
+	  <DependentUpon>MainForm.cs</DependentUpon>
+	</EmbeddedResource>
+
+Lưu file .csproj và sau đó nhấn chuột phải vào project và chọn "Reload Project".
+
+=================
+Manifest File để ứng dụng chạy với quyền quản trị
+Visual Studio 2008 and higher: Project + Add New Item, select "Application Manifest File". Change the <requestedExecutionLevel> element to:
+ <!-- Dành cho chạy Release: requireAdministrator, dành cho debug asInvoker -->
+		  <requestedExecutionLevel level="requireAdministrator" uiAccess="false" />
+
+ ==================
+
+Hướng dẫn đóng gói ứng dụng = https://www.advancedinstaller.com/downloading.html
+
+
+1. Set thư mục gốc là thư mục chưa file exe
+#if DEBUG // file exe nằm ở thư mục debug
+        public static string PROJECT_DIR = Directory.GetParent(Directory.GetParent(Directory.GetParent(AppDomain.CurrentDomain.BaseDirectory).FullName).FullName).FullName;
+#else // release thì file exe nằm ở thư mục gốc
+        public static string PROJECT_DIR = AppDomain.CurrentDomain.BaseDirectory;
+#endif
+2. mở file Manifest và cho phép chạy quyền quản trị (nếu đóng gói .msi để cài ổ C Program), Chọn Release trên thanh công cụ và nhấn build
+3. Mở advancedinstaller chọn Visual Studio Application -> Create New Project
+4. Product Name: Auto Title, Organization: roktop.net -> Next -> Next -> Select file .sln
+5. Chọn Release -> Next -> Chọn select All -> next
+6. Rename Auto Title.exe, bỏ chọn create sort cut start menu
+7. Next, next, chọn classic setup
+8. Chọn icon 
+9. Trong mục File and Folder -> Application Folder:
+- Thêm file config.db trong thư mục release, đây là database cơ bản (không cần thêm nếu đã có code tạo database mới mỗi khi chạy chương trình)
+- Thêm thư mục images
+- Thêm thư mục platform-tools
+- Thêm thư mục x64 và x86 trong bin\Release
+10. Chọn project -> build, file build mặc định nằm trong C:\Users\TranNam13500\Documents\Advanced Installer\Projects
+
+11. Cài vào ổ D đỡ phải quyền admin, hoặc cài sau nén file rar chạy ngon, hoặc copy file trong thư mục release luôn đỡ phải đóng gói bằng phần mềm.
+
+==================================
+Cấu hình thư mục release
+
+1. Xóa các file xml, di chuyển file .dll vào library, xóa các thư mục ZedGraph đa ngôn ngữ:
+2. Copy các thư mục images, platform-tools vào release
+
+Nhấp chuột phải vào dự án của bạn trong Solution Explorer.
+Chọn Properties.
+Chọn tab Build Events.
+
+- Trong phần Post-build event command line, thêm đoạn mã sau:
+
+if "$(ConfigurationName)" == "Release" (
+  if exist "$(TargetDir)library" (
+    rmdir /S /Q "$(TargetDir)library"
+  )
+  mkdir "$(TargetDir)library"
+  move /Y "$(TargetDir)x86" "$(TargetDir)library\x86"
+  move /Y "$(TargetDir)x64" "$(TargetDir)library\x64"
+  move /Y "$(TargetDir)*.dll" "$(TargetDir)library\"
+  del "$(TargetDir)*.xml"
+
+  :: Xóa các thư mục ngôn ngữ không cần thiết
+  rmdir /S /Q "$(TargetDir)de"
+  rmdir /S /Q "$(TargetDir)es"
+  rmdir /S /Q "$(TargetDir)fr"
+  rmdir /S /Q "$(TargetDir)hu"
+  rmdir /S /Q "$(TargetDir)it"
+  rmdir /S /Q "$(TargetDir)ja"
+  rmdir /S /Q "$(TargetDir)pt"
+  rmdir /S /Q "$(TargetDir)ru"
+  rmdir /S /Q "$(TargetDir)sk"
+  rmdir /S /Q "$(TargetDir)sv"
+  rmdir /S /Q "$(TargetDir)tr"
+  rmdir /S /Q "$(TargetDir)zh-cn"
+  rmdir /S /Q "$(TargetDir)zh-tw"
+
+  :: Xóa thư mục images nếu tồn tại, thư mục platform-tool tự copy
+  if exist "$(TargetDir)images" (
+    rmdir /S /Q "$(TargetDir)images"
+  )
+
+  :: Sao chép lại từ thư mục gốc (giả sử thư mục gốc là $(SolutionDir))
+  xcopy /E /I /Y "$(SolutionDir)images" "$(TargetDir)images"
+)
+
+
+- Thêm vào App.config để ứng dụng biết thư viện .dll nằm ở đâu
+
+<configuration>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <probing privatePath="library"/>
+    </assemblyBinding>
+  </runtime>
+</configuration>
+
+
+
+3. Chỉnh sửa trong project Properti -> Application -> Assembly Name, Assembly Infomation (version, description)
