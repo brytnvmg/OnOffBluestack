@@ -19,6 +19,22 @@ namespace OnOffBluestack
 
         private int previousSelectedIndex = -1;
 
+        // Màn FULL HD
+        double thresholdByResolution = 0.7; 
+        string ICON_CLOSE = MyConstant.ICON_CLOSE_BLUESTACK_FULL_HD;
+        string ICON_START = MyConstant.ICON_START_BLUESTACK_FULL_HD;
+        string ICON_STOP = MyConstant.ICON_STOP_BLUESTACK_FULL_HD;
+        string ICON_SORT = MyConstant.ICON_SORT_BLUESTACK_FULL_HD;
+        string ICON_TEXT_SORT_ALL = MyConstant.ICON_TEXT_SORT_ALL_FULL_HD;
+
+        // Màn 2K
+        //double thresholdByResolution = 0.9; 
+        //string ICON_CLOSE = MyConstant.ICON_CLOSE_BLUESTACK_2K;
+        //string ICON_START = MyConstant.ICON_START_BLUESTACK_2K;
+        //string ICON_STOP = MyConstant.ICON_STOP_BLUESTACK_2K;
+        //string ICON_SORT = MyConstant.ICON_SORT_BLUESTACK_2K;
+        //string ICON_TEXT_SORT_ALL = MyConstant.ICON_TEXT_SORT_ALL_2K;
+
         [DllImport("user32.dll", SetLastError = true)]
         static extern void mouse_event(int dwFlags, int dx, int dy, int dwData, int dwExtraInfo);
 
@@ -44,6 +60,7 @@ namespace OnOffBluestack
             InitializeComponent();
             Get_Version_App();
             Config_Device_List_View();
+            countdownLabel.Text = "";
             Logger.OnLog += Log;
         }
         /// <summary>
@@ -103,7 +120,7 @@ namespace OnOffBluestack
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Khởi động đồng thời đếm ngược và xử lý logic
-            Task countdownTask = CountdownAndDisableButton(startAuto_Button, stopAuto_Button, "Start", "Stop", 10, cancellationTokenSource.Token);
+            Task countdownTask = CountdownAndDisableButton(10, cancellationTokenSource.Token);
             Task logicTask = Task.Run(() =>
             {
                 List<ButtonInfo> allButtons = getListRectangleButton();
@@ -124,7 +141,7 @@ namespace OnOffBluestack
                 }
                 else
                 {
-                    Logger.Log($"{device.Name} index {device.Index} vượt quá số lượng button có sẵn: {allButtons.Count}");
+                    Logger.Log($"{device.Name} index {device.Index} vượt quá số lượng {allButtons.Count} button có sẵn");
                     cancellationTokenSource.Cancel();
                 }
             });
@@ -141,7 +158,7 @@ namespace OnOffBluestack
             var cancellationTokenSource = new CancellationTokenSource();
 
             // Khởi động đồng thời đếm ngược và xử lý logic
-            Task countdownTask = CountdownAndDisableButton(startAuto_Button, stopAuto_Button, "Start", "Stop", 20, cancellationTokenSource.Token);
+            Task countdownTask = CountdownAndDisableButton(15, cancellationTokenSource.Token);
             Task logicTask = Task.Run(() =>
             {
                 List<ButtonInfo> allButtons = getListRectangleButton();
@@ -154,7 +171,7 @@ namespace OnOffBluestack
                         ClickCenterRectangle(buttonByIndex.ButtonRect);
                         Thread.Sleep(1000);
                         Bitmap screen = CaptureScreen();
-                        Point buttonClosePoint = OpenCV.Find_First_Image(screen, MyConstant.ICON_CLOSE_BLUESTACK_FULL_HD, PointCondition.MinXY, 0.7); // Màn 2k để 0.85
+                        Point buttonClosePoint = OpenCV.Find_First_Image(screen, ICON_CLOSE, PointCondition.MinXY, thresholdByResolution); // Màn 2k để 0.85
                         if (buttonClosePoint != Point.Empty)
                         {
                             ClickAt(buttonClosePoint.X, buttonClosePoint.Y);
@@ -173,7 +190,7 @@ namespace OnOffBluestack
                 }
                 else
                 {
-                    Logger.Log($"{device.Name} index {device.Index} vượt quá số lượng button có sẵn: {allButtons.Count}");
+                    Logger.Log($"{device.Name} index {device.Index} vượt quá số lượng {allButtons.Count} button");
                     cancellationTokenSource.Cancel();
                 }
             });
@@ -182,17 +199,48 @@ namespace OnOffBluestack
             await Task.WhenAll(countdownTask, logicTask);
         }
 
+        /// SẮP XẾP BLUESTACK
+        private async void sortBluestack_Button_Click(object sender, EventArgs e)
+        {
+            var cancellationTokenSource = new CancellationTokenSource();
+            // Khởi động đồng thời đếm ngược và xử lý logic
+            Task countdownTask = CountdownAndDisableButton(5, cancellationTokenSource.Token);
+            Task logicTask = Task.Run(() =>
+            {
 
+                Bitmap screen = CaptureScreen();
+                Point iconSortBluestack = OpenCV.Find_First_Image(screen, ICON_SORT, PointCondition.MinXY, thresholdByResolution); 
+                if (iconSortBluestack != Point.Empty)
+                {
+                    ClickAt(iconSortBluestack.X, iconSortBluestack.Y);
+                    Thread.Sleep(1000);
+                    screen = CaptureScreen();
+                    Point textSortAll = OpenCV.Find_First_Image(screen, ICON_TEXT_SORT_ALL, PointCondition.MinXY, thresholdByResolution);
+                    if (textSortAll != Point.Empty)
+                    {
+                        ClickAt(textSortAll.X, textSortAll.Y);
+                        Logger.Log("Đã sắp xếp Bluestack");
+                    }
+                }
+                else
+                {
+                    Logger.Log("Không tìm thấy nút sắp xếp Bluestack");
+                }
+                
+            });
+
+            // Chạy song song đếm ngược và logic
+            await Task.WhenAll(countdownTask, logicTask);
+        }
 
         /// <summary>
         /// Hàm đếm ngược dùng chung:
         /// </summary>
 
-        private async Task CountdownAndDisableButton(Button startButton, Button stopButton, string startActionText, string stopActionText, int seconds, CancellationToken cancellationToken)
+        private async Task CountdownAndDisableButton(int seconds, CancellationToken cancellationToken)
         {
             // Vô hiệu hóa cả hai nút
-            startButton.Enabled = false;
-            stopButton.Enabled = false;
+            panel1.Enabled = false;
 
             for (int i = seconds; i >= 0; i--)
             {
@@ -202,31 +250,23 @@ namespace OnOffBluestack
                 }
 
                 // Cập nhật text cho startButton
-                startButton.Invoke(new Action(() =>
+                countdownLabel.Invoke(new Action(() =>
                 {
-                    startButton.Text = $"{startActionText} ({i}s)";
-                }));
-
-                // Cập nhật text cho stopButton
-                stopButton.Invoke(new Action(() =>
-                {
-                    stopButton.Text = $"{stopActionText} ({i}s)";
+                    countdownLabel.Text = $"Waiting... ({i}s)";
                 }));
 
                 await Task.Delay(1000);  // Đợi 1 giây
             }
 
             // Kích hoạt lại cả hai nút và đặt lại text riêng biệt
-            startButton.Invoke(new Action(() =>
+            panel1.Invoke(new Action(() =>
             {
-                startButton.Enabled = true;
-                startButton.Text = startActionText;
+                panel1.Enabled = true;
             }));
 
-            stopButton.Invoke(new Action(() =>
+            countdownLabel.Invoke(new Action(() =>
             {
-                stopButton.Enabled = true;
-                stopButton.Text = stopActionText;
+                countdownLabel.Text = "";
             }));
         }
 
@@ -280,14 +320,14 @@ namespace OnOffBluestack
             List<ButtonInfo> allButton = new List<ButtonInfo>();
 
             // Tìm các button Start và thêm chúng vào danh sách với trạng thái "Start"
-            List<Rectangle> listButtonStart = OpenCV.Find_Image_Rectangle(screen, MyConstant.ICON_START_BLUESTACK_FULL_HD, 0.7); // màn 2k phải để 0.9 không là nhận nhầm button Phiên Bản
+            List<Rectangle> listButtonStart = OpenCV.Find_Image_Rectangle(screen, ICON_START, thresholdByResolution); // màn 2k phải để 0.9 không là nhận nhầm button Phiên Bản
             foreach (var rect in listButtonStart)
             {
                 allButton.Add(new ButtonInfo(rect, "Start"));
             }
 
             // Tìm các button Stop và thêm chúng vào danh sách với trạng thái "Stop"
-            List<Rectangle> listButtonStop = OpenCV.Find_Image_Rectangle(screen, MyConstant.ICON_STOP_BLUESTACK_FULL_HD, 0.7); 
+            List<Rectangle> listButtonStop = OpenCV.Find_Image_Rectangle(screen, ICON_STOP, thresholdByResolution); 
             foreach (var rect in listButtonStop)
             {
                 allButton.Add(new ButtonInfo(rect, "Stop"));
@@ -429,9 +469,6 @@ namespace OnOffBluestack
         }
 
 
-
-
-
         /// <summary>
         /// Refresh Device list
         /// </summary>
@@ -439,8 +476,6 @@ namespace OnOffBluestack
         {
             Get_Active_Devices();
         }
-
-
 
         /// <summary>
         /// Hàm xử lý sự kiện row selected change list view
@@ -478,6 +513,15 @@ namespace OnOffBluestack
                 }
             }
         }
+
+
+        private void alwaysOnTop_ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Bật/tắt chế độ luôn ở trên cùng
+            this.TopMost = !this.TopMost;
+            Logger.Log("Always on top = " + this.TopMost.ToString());
+        }
+
         #endregion
 
     }

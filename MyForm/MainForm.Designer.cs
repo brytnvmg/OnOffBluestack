@@ -35,11 +35,15 @@
             this.startAuto_Button = new System.Windows.Forms.Button();
             this.stopAuto_Button = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
+            this.sortBluestack_Button = new System.Windows.Forms.Button();
             this.refreshDevice_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
-            this.guide_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.alwaysOnTop_ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.dùngĐểKhởiĐộngLạiBluestackNếuBịTreoToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.label1 = new System.Windows.Forms.Label();
+            this.countdownLabel = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1.SuspendLayout();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
@@ -60,7 +64,7 @@
             // 
             this.log_TextBox.BackColor = System.Drawing.Color.Gainsboro;
             this.log_TextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.log_TextBox.Location = new System.Drawing.Point(0, 416);
+            this.log_TextBox.Location = new System.Drawing.Point(0, 521);
             this.log_TextBox.Multiline = true;
             this.log_TextBox.Name = "log_TextBox";
             this.log_TextBox.ReadOnly = true;
@@ -83,9 +87,8 @@
             // startAuto_Button
             // 
             this.startAuto_Button.BackColor = System.Drawing.Color.LightSkyBlue;
-            this.startAuto_Button.Dock = System.Windows.Forms.DockStyle.Left;
             this.startAuto_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.startAuto_Button.Location = new System.Drawing.Point(0, 0);
+            this.startAuto_Button.Location = new System.Drawing.Point(3, 0);
             this.startAuto_Button.Name = "startAuto_Button";
             this.startAuto_Button.Size = new System.Drawing.Size(180, 50);
             this.startAuto_Button.TabIndex = 5;
@@ -95,8 +98,8 @@
             // 
             // stopAuto_Button
             // 
+            this.stopAuto_Button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.stopAuto_Button.BackColor = System.Drawing.Color.LightCoral;
-            this.stopAuto_Button.Dock = System.Windows.Forms.DockStyle.Right;
             this.stopAuto_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.stopAuto_Button.Location = new System.Drawing.Point(182, 0);
             this.stopAuto_Button.Name = "stopAuto_Button";
@@ -108,13 +111,27 @@
             // 
             // panel1
             // 
+            this.panel1.Controls.Add(this.sortBluestack_Button);
             this.panel1.Controls.Add(this.startAuto_Button);
             this.panel1.Controls.Add(this.stopAuto_Button);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 366);
+            this.panel1.Location = new System.Drawing.Point(0, 419);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(362, 50);
+            this.panel1.Size = new System.Drawing.Size(362, 102);
             this.panel1.TabIndex = 9;
+            // 
+            // sortBluestack_Button
+            // 
+            this.sortBluestack_Button.Anchor = System.Windows.Forms.AnchorStyles.Top;
+            this.sortBluestack_Button.BackColor = System.Drawing.Color.LightGray;
+            this.sortBluestack_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.sortBluestack_Button.Location = new System.Drawing.Point(3, 49);
+            this.sortBluestack_Button.Name = "sortBluestack_Button";
+            this.sortBluestack_Button.Size = new System.Drawing.Size(356, 50);
+            this.sortBluestack_Button.TabIndex = 7;
+            this.sortBluestack_Button.Text = "Sắp xếp tất cả các tab Bluestack";
+            this.sortBluestack_Button.UseVisualStyleBackColor = false;
+            this.sortBluestack_Button.Click += new System.EventHandler(this.sortBluestack_Button_Click);
             // 
             // refreshDevice_ToolStripMenuItem
             // 
@@ -127,7 +144,7 @@
             // 
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.refreshDevice_ToolStripMenuItem,
-            this.guide_ToolStripMenuItem,
+            this.alwaysOnTop_ToolStripMenuItem,
             this.dùngĐểKhởiĐộngLạiBluestackNếuBịTreoToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
@@ -135,10 +152,12 @@
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
-            // guide_ToolStripMenuItem
+            // alwaysOnTop_ToolStripMenuItem
             // 
-            this.guide_ToolStripMenuItem.Name = "guide_ToolStripMenuItem";
-            this.guide_ToolStripMenuItem.Size = new System.Drawing.Size(12, 20);
+            this.alwaysOnTop_ToolStripMenuItem.Name = "alwaysOnTop_ToolStripMenuItem";
+            this.alwaysOnTop_ToolStripMenuItem.Size = new System.Drawing.Size(94, 20);
+            this.alwaysOnTop_ToolStripMenuItem.Text = "Always on top";
+            this.alwaysOnTop_ToolStripMenuItem.Click += new System.EventHandler(this.alwaysOnTop_ToolStripMenuItem_Click);
             // 
             // dùngĐểKhởiĐộngLạiBluestackNếuBịTreoToolStripMenuItem
             // 
@@ -154,16 +173,53 @@
             this.label1.Location = new System.Drawing.Point(0, 343);
             this.label1.Name = "label1";
             this.label1.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
-            this.label1.Size = new System.Drawing.Size(228, 13);
+            this.label1.Size = new System.Drawing.Size(231, 13);
             this.label1.TabIndex = 10;
-            this.label1.Text = "Dùng để khởi động lại Bluestack khi bị treo";
+            this.label1.Text = "Dùng để khởi động lại Bluestack khi bị treo,";
+            // 
+            // countdownLabel
+            // 
+            this.countdownLabel.AutoSize = true;
+            this.countdownLabel.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.countdownLabel.Location = new System.Drawing.Point(272, 399);
+            this.countdownLabel.Name = "countdownLabel";
+            this.countdownLabel.Size = new System.Drawing.Size(81, 13);
+            this.countdownLabel.TabIndex = 11;
+            this.countdownLabel.Text = "Waiting ... (10s)";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.BackColor = System.Drawing.Color.Transparent;
+            this.label2.ForeColor = System.Drawing.Color.Red;
+            this.label2.Location = new System.Drawing.Point(0, 397);
+            this.label2.Name = "label2";
+            this.label2.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label2.Size = new System.Drawing.Size(177, 13);
+            this.label2.TabIndex = 12;
+            this.label2.Text = "Chọn đúng tên giả lập để bật tắt";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.ForeColor = System.Drawing.Color.Red;
+            this.label3.Location = new System.Drawing.Point(0, 369);
+            this.label3.Name = "label3";
+            this.label3.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
+            this.label3.Size = new System.Drawing.Size(302, 13);
+            this.label3.TabIndex = 13;
+            this.label3.Text = "Hoặc để sắp xếp lại các tab khi bị đè nhau, ẩn không thấy";
             // 
             // mainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(362, 509);
+            this.ClientSize = new System.Drawing.Size(362, 614);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.countdownLabel);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.deviceInfoLabel);
@@ -193,9 +249,13 @@
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.ToolStripMenuItem refreshDevice_ToolStripMenuItem;
         private System.Windows.Forms.MenuStrip menuStrip1;
-        private System.Windows.Forms.ToolStripMenuItem guide_ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem alwaysOnTop_ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dùngĐểKhởiĐộngLạiBluestackNếuBịTreoToolStripMenuItem;
         private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Button sortBluestack_Button;
+        private System.Windows.Forms.Label countdownLabel;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label3;
     }
 }
 

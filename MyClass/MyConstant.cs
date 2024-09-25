@@ -34,10 +34,14 @@ namespace OnOffBluestack
         public static string ICON_START_BLUESTACK_2K = Path.Combine(ICON_PATH, "ICON_START_BLUESTACK_2K.png");
         public static string ICON_STOP_BLUESTACK_2K = Path.Combine(ICON_PATH, "ICON_STOP_BLUESTACK_2K.png");
         public static string ICON_CLOSE_BLUESTACK_2K = Path.Combine(ICON_PATH, "ICON_CLOSE_BLUESTACK_2K.png");
+        public static string ICON_SORT_BLUESTACK_2K = Path.Combine(ICON_PATH, "ICON_SORT_BLUESTACK_2K.png");
+        public static string ICON_TEXT_SORT_ALL_2K = Path.Combine(ICON_PATH, "ICON_TEXT_SORT_ALL_2K.png");
 
         public static string ICON_START_BLUESTACK_FULL_HD = Path.Combine(ICON_PATH, "ICON_START_BLUESTACK_FULL_HD.png");
         public static string ICON_STOP_BLUESTACK_FULL_HD = Path.Combine(ICON_PATH, "ICON_STOP_BLUESTACK_FULL_HD.png");
         public static string ICON_CLOSE_BLUESTACK_FULL_HD = Path.Combine(ICON_PATH, "ICON_CLOSE_BLUESTACK_FULL_HD.png");
+        public static string ICON_SORT_BLUESTACK_FULL_HD = Path.Combine(ICON_PATH, "ICON_SORT_BLUESTACK_FULL_HD.png");
+        public static string ICON_TEXT_SORT_ALL_FULL_HD = Path.Combine(ICON_PATH, "ICON_TEXT_SORT_ALL_FULL_HD.png");
 
 
     }
