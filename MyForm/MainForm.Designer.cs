@@ -123,13 +123,13 @@
             // sortBluestack_Button
             // 
             this.sortBluestack_Button.Anchor = System.Windows.Forms.AnchorStyles.Top;
-            this.sortBluestack_Button.BackColor = System.Drawing.Color.LightGray;
+            this.sortBluestack_Button.BackColor = System.Drawing.Color.LightGreen;
             this.sortBluestack_Button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.sortBluestack_Button.Location = new System.Drawing.Point(3, 49);
             this.sortBluestack_Button.Name = "sortBluestack_Button";
             this.sortBluestack_Button.Size = new System.Drawing.Size(356, 50);
             this.sortBluestack_Button.TabIndex = 7;
-            this.sortBluestack_Button.Text = "Sắp xếp tất cả các tab Bluestack";
+            this.sortBluestack_Button.Text = "Sắp xếp lại các tab Bluestack";
             this.sortBluestack_Button.UseVisualStyleBackColor = false;
             this.sortBluestack_Button.Click += new System.EventHandler(this.sortBluestack_Button_Click);
             // 
