@@ -50,7 +50,7 @@
             this.device_ListView.HideSelection = false;
             this.device_ListView.Location = new System.Drawing.Point(0, 24);
             this.device_ListView.Name = "device_ListView";
-            this.device_ListView.Size = new System.Drawing.Size(362, 152);
+            this.device_ListView.Size = new System.Drawing.Size(362, 125);
             this.device_ListView.TabIndex = 1;
             this.device_ListView.UseCompatibleStateImageBehavior = false;
             this.device_ListView.View = System.Windows.Forms.View.Details;
@@ -59,19 +59,19 @@
             // 
             this.log_TextBox.BackColor = System.Drawing.Color.Gainsboro;
             this.log_TextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.log_TextBox.Location = new System.Drawing.Point(0, 286);
+            this.log_TextBox.Location = new System.Drawing.Point(0, 243);
             this.log_TextBox.Multiline = true;
             this.log_TextBox.Name = "log_TextBox";
             this.log_TextBox.ReadOnly = true;
             this.log_TextBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.log_TextBox.Size = new System.Drawing.Size(362, 93);
+            this.log_TextBox.Size = new System.Drawing.Size(362, 72);
             this.log_TextBox.TabIndex = 3;
             // 
             // panel1
             // 
             this.panel1.Controls.Add(this.sortBluestack_Button);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.panel1.Location = new System.Drawing.Point(0, 230);
+            this.panel1.Location = new System.Drawing.Point(0, 187);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(362, 56);
             this.panel1.TabIndex = 9;
@@ -126,7 +126,7 @@
             this.countdownLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.countdownLabel.AutoSize = true;
             this.countdownLabel.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.countdownLabel.Location = new System.Drawing.Point(269, 207);
+            this.countdownLabel.Location = new System.Drawing.Point(269, 171);
             this.countdownLabel.Name = "countdownLabel";
             this.countdownLabel.Size = new System.Drawing.Size(81, 13);
             this.countdownLabel.TabIndex = 11;
@@ -134,12 +134,12 @@
             // 
             // label3
             // 
-            this.label3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.label3.AutoSize = true;
             this.label3.BackColor = System.Drawing.Color.Transparent;
+            this.label3.Dock = System.Windows.Forms.DockStyle.Top;
             this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label3.ForeColor = System.Drawing.Color.Red;
-            this.label3.Location = new System.Drawing.Point(-3, 183);
+            this.label3.Location = new System.Drawing.Point(0, 149);
             this.label3.Name = "label3";
             this.label3.Padding = new System.Windows.Forms.Padding(8, 0, 8, 0);
             this.label3.Size = new System.Drawing.Size(363, 16);
@@ -151,7 +151,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(362, 379);
+            this.ClientSize = new System.Drawing.Size(362, 315);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.countdownLabel);
             this.Controls.Add(this.panel1);
