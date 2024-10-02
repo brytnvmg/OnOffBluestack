@@ -487,31 +487,31 @@ namespace OnOffBluestack
         private void deviceListView_ItemSelectionChanged(object sender, ListViewItemSelectionChangedEventArgs e)
         {
 
-            //Hành động khi một hàng được chọn
-            if (e.IsSelected)
-            {
-                if (e.ItemIndex != previousSelectedIndex)
-                {
-                    Device device = Get_Device_Selected();
-                    if (device == null) { return; }
-                    deviceInfoLabel.Text = device.Instance_Id;
-                    deviceInfoLabel.Text += " - " + device.Name;
-                    deviceInfoLabel.Text += " - " + device.Width + " x " + device.Height;
-                }
-                // Cập nhật chỉ mục của dòng đã chọn trước đó
-                previousSelectedIndex = e.ItemIndex;
-            }
-            // Hành động khi một hàng bị bỏ chọn
-            else
-            {
-                if (e.ItemIndex != previousSelectedIndex)
-                {
-                    if (device_ListView.SelectedItems.Count == 0)
-                    {
-                        deviceInfoLabel.Text = "";
-                    }
-                }
-            }
+            ////Hành động khi một hàng được chọn
+            //if (e.IsSelected)
+            //{
+            //    if (e.ItemIndex != previousSelectedIndex)
+            //    {
+            //        Device device = Get_Device_Selected();
+            //        if (device == null) { return; }
+            //        deviceInfoLabel.Text = device.Instance_Id;
+            //        deviceInfoLabel.Text += " - " + device.Name;
+            //        deviceInfoLabel.Text += " - " + device.Width + " x " + device.Height;
+            //    }
+            //    // Cập nhật chỉ mục của dòng đã chọn trước đó
+            //    previousSelectedIndex = e.ItemIndex;
+            //}
+            //// Hành động khi một hàng bị bỏ chọn
+            //else
+            //{
+            //    if (e.ItemIndex != previousSelectedIndex)
+            //    {
+            //        if (device_ListView.SelectedItems.Count == 0)
+            //        {
+            //            deviceInfoLabel.Text = "";
+            //        }
+            //    }
+            //}
         }
 
 
